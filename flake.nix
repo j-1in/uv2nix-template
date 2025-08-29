@@ -46,7 +46,7 @@
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
-        "x86_64-linux"
+        "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"
       ];
       perSystem =
         {
@@ -123,7 +123,8 @@
                   pkgs.zlib
                   pkgs.nodejs  # I need this for my lsp
                 ];
-                LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";  # needed for numpy
+                LD_LIBRARY_PATH = lib.optionalString pkgs.stdenv.isLinux "${pkgs.stdenv.cc.cc.lib}/lib";
+                DYLD_LIBRARY_PATH = lib.optionalString pkgs.stdenv.isDarwin "${pkgs.stdenv.cc.cc.lib}/lib";
               };
 
             default = pkgs.mkShell { # original name is impure
