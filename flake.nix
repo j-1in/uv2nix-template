@@ -121,8 +121,9 @@
                   pythonEnv
                   self'.packages.${package-name}
                   pkgs.zlib
-                  pkgs.node
+                  pkgs.nodejs  # I need this for my lsp
                 ];
+                LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";  # needed for numpy
               };
 
             default = pkgs.mkShell { # original name is impure
@@ -130,11 +131,12 @@
                 python
                 pkgs.uv
                 pkgs.zlib
-                pkgs.node
+                pkgs.nodejs
               ];
               shellHook = ''
                 unset PYTHONPATH
               '';
+              LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
             };
 
             uv2nix =
