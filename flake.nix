@@ -137,7 +137,7 @@
               shellHook = ''
                 unset PYTHONPATH
               '';
-              LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+              LD_LIBRARY_PATH="/run/opengl-driver/lib:${pkgs.stdenv.cc.cc.lib}/lib";
             };
 
             uv2nix =
